@@ -1,5 +1,9 @@
 <template>
-	<div class="list-container">
+	Hi
+</template>
+
+<!-- <template>
+	<div class="bg-gray-700 h-fit w-fit px-4">
 		<ul>
 			<li v-for="activity in activityStore.activities" :key="activity.id">
 				<ActivityListItem :activity="activity" />
@@ -11,9 +15,7 @@
 
 <script setup lang="ts">
 	import ActivityListItem from '@/components/lists/ActivityListItem.vue';
-	import { useActivityStore } from '@/stores/activity';
-
-	const activityStore = useActivityStore();
+	import { onMounted } from 'vue';
 
 	const addActivity = () => {
 		activityStore.add({
@@ -23,13 +25,15 @@
 		});
 	}
 
-</script>
+	activityStore.$subscribe((mutation, state) => {
+		localStorage.setItem('activities', JSON.stringify(state.activities));
+	});
 
+	onMounted(() => {
+		const activities = localStorage.getItem('activities');
+		if (activities) {
+			activityStore.initialize(JSON.parse(activities));
+		}
+	});
 
-<style scoped>
-	.list-container {
-		width: 10rem;
-		height: 10rem;
-		border: 1px solid #ccc;
-	}
-</style>
+</script> -->
